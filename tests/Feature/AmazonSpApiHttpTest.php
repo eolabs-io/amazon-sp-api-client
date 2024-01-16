@@ -58,7 +58,9 @@ class AmazonSpApiHttpTest extends TestCase
 
         Http::assertSent(function ($request) {
             return $request->hasHeader('x-amz-access-token', 'Atza|EXAMPLE--d2FsbWFydEFwaS1jbGllbnQtaWQ6d2FsbWFydEFwaS1jbGllbnQtc2VjcmV0') &&
-                   $request->url() == 'https://sellingpartnerapi-na.amazon.com/someEndpoint/version?param_1=12345';
+                $request->hasHeader('User-Agent', 'eoLabs Amazon SP-API Client/1.0.0') &&
+                $request->hasHeader('Accept', 'application/json') &&
+                $request->url() == 'https://sellingpartnerapi-na.amazon.com/someEndpoint/version?param_1=12345';
         });
     }
 

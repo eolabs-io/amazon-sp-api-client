@@ -12,10 +12,13 @@ class AmazonSpApiHttp
     /** @var Store */
     private $store;
 
+    /** @var array */
+    private $headers = [];
+
 
     public function __construct()
     {
-
+        //
     }
 
     public function withStore(Store $store): self
@@ -53,9 +56,32 @@ class AmazonSpApiHttp
         return $this->store->amazon_service_url;
     }
 
+    public function withHeaders(array $headers): self
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
     private function getHeaders(): array
     {
-        return ['x-amz-access-token' => $this->getAccessToken()];
+        return array_merge($this->getRequriedHeaders(), $this->headers);
+    }
+
+    private function getRequriedHeaders(): array
+    {
+        return [
+            'Accept' => 'application/json',
+            'User-Agent' => $this->getUserAgent(),
+            'x-amz-access-token' => $this->getAccessToken(),
+        ];
+    }
+
+    protected function getUserAgent(): string
+    {
+        $appId = config('amazon-sp-api-client.app.id');
+        $appVersion = config('amazon-sp-api-client.app.version');
+        return $appId . "/" . $appVersion;
     }
 
     public function getAccessToken(): string
