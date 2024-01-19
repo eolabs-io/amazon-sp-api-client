@@ -25,7 +25,7 @@ class Marketplace extends AmazonSpApiClientModel implements Parameterable
 
     protected $hidden = ['laravel_through_key'];
 
-    public function mwsEndpoint()
+    public function spApiEndpoint()
     {
         return $this->belongsTo(Endpoint::class, 'marketplace_id', 'marketplace_id');
     }
@@ -33,7 +33,7 @@ class Marketplace extends AmazonSpApiClientModel implements Parameterable
     public function toParameters(): array
     {
         return [
-            'endpoint' => $this->mwsEndpoint->endpoint,
+            'endpoint' => $this->spApiEndpoint->endpoint,
             'marketplace_id' => $this->marketplace_id,
         ];
     }
